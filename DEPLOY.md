@@ -73,13 +73,45 @@ git push -u origin main
 
 If the remote already exists with history, use `git pull origin main --allow-unrelated-histories` before pushing, or force-push only if you intend to replace the remote.
 
-## 6. Vercel
+## 6. Vercel — create project & sync from GitHub
 
-1. Import the GitHub repo in [Vercel](https://vercel.com).
-2. Framework preset: **Next.js**.
-3. Environment variables: paste **every** variable from `.env.example` (production values).
-   - `NEXT_PUBLIC_APP_URL` must be your Vercel URL, e.g. `https://flowershop.vercel.app`.
-4. Deploy.
+Your repo is ready to connect: `https://github.com/evenliu-debug/flowershop` (`main` branch).
+
+### A. First-time link between Vercel and GitHub
+
+1. Sign in at [vercel.com](https://vercel.com).
+2. **Add New… → Project**.
+3. Under **Import Git Repository**, choose **GitHub**. If prompted, **Install** the Vercel GitHub App and grant access to **`evenliu-debug/flowershop`** (or “All repositories”, then narrow later).
+4. Select **`flowershop`** → **Import**.
+
+### B. Configure build (usually automatic)
+
+- **Framework Preset**: Next.js (detected).
+- **Root Directory**: `./` (leave default).
+- **Build Command**: `next build` (default).
+- **Output Directory**: leave default for Next.js.
+
+Click **Deploy** once — the first deploy may finish **before** you add env vars; expect runtime errors until Supabase keys exist (see section “Credentials not ready yet?” above).
+
+### C. Environment variables (Project → Settings → Environment Variables)
+
+Add each name from `.env.example`. Minimum for a working site after Supabase is ready:
+
+| Variable | Environment | Note |
+|----------|-------------|------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Production (and Preview if you want preview deploys to work) | From Supabase Dashboard → Settings → API |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Production, Preview | Same |
+| `NEXT_PUBLIC_APP_URL` | Production | After first deploy, use your real URL: `https://<project>.vercel.app` or custom domain |
+| `STRIPE_SECRET_KEY` | Production | When you test Stripe checkout |
+| `NEXT_PUBLIC_PAYPAL_CLIENT_ID` + PayPal server vars | When you test PayPal | Optional at first |
+
+Use **the same values for Preview** if you want pull-request previews to hit your Supabase project; or use a separate Supabase project for preview only.
+
+After saving variables: **Redeploy** the latest deployment (Deployments → … → Redeploy).
+
+### D. Ongoing sync
+
+Every `git push` to `main` triggers a new Vercel **production** deployment automatically. Other branches can create **Preview** deployments if enabled in the project’s Git settings.
 
 ## 7. Post-deploy checks
 
