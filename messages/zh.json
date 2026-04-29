@@ -1,0 +1,151 @@
+{
+  "Metadata": {
+    "title": "Even 花艺 — 鲜花与礼品",
+    "description": "优质鲜花与礼品，全球友好结账，中英双语目录。"
+  },
+  "Nav": {
+    "home": "首页",
+    "products": "全部商品",
+    "about": "关于我们",
+    "contact": "联系我们",
+    "cart": "购物车",
+    "account": "用户中心",
+    "login": "登录",
+    "register": "注册",
+    "admin": "管理后台",
+    "language": "语言"
+  },
+  "Home": {
+    "heroTitle": "为每个重要时刻备好鲜花",
+    "heroSubtitle": "精选花束与绿植，出口级品质，美元标价，便捷结账。",
+    "heroCta": "浏览商品",
+    "featured": "精选推荐",
+    "categories": "按分类选购",
+    "viewAll": "查看全部"
+  },
+  "Products": {
+    "title": "全部商品",
+    "searchPlaceholder": "按名称搜索…",
+    "filterCategory": "分类",
+    "filterPrice": "价格（美元）",
+    "filterAll": "全部",
+    "filterColor": "颜色",
+    "filterSize": "尺寸",
+    "clearFilters": "清除筛选",
+    "noResults": "没有符合筛选条件的商品。",
+    "sortBy": "排序",
+    "sortNewest": "最新上架",
+    "sortPriceAsc": "价格从低到高",
+    "sortPriceDesc": "价格从高到低",
+    "from": "起",
+    "usd": "美元"
+  },
+  "ProductDetail": {
+    "addToCart": "加入购物车",
+    "selectVariant": "请选择规格",
+    "outOfStock": "暂时缺货",
+    "sku": "SKU",
+    "description": "商品描述",
+    "related": "你可能还喜欢"
+  },
+  "Cart": {
+    "title": "购物车",
+    "empty": "购物车是空的。",
+    "continue": "继续购物",
+    "subtotal": "小计",
+    "checkout": "去结账",
+    "remove": "移除",
+    "qty": "数量",
+    "lineNote": "运费与税费将在订单确认后由客服与您核实"
+  },
+  "Checkout": {
+    "title": "结账",
+    "shippingTitle": "收货地址",
+    "contactTitle": "联系方式",
+    "fullName": "收件人姓名",
+    "line1": "地址第一行",
+    "line2": "地址第二行",
+    "city": "城市",
+    "state": "州 / 省",
+    "postal": "邮编",
+    "country": "国家",
+    "email": "邮箱",
+    "phone": "电话",
+    "paymentTitle": "支付方式",
+    "payStripe": "银行卡（Stripe 测试模式）",
+    "payPayPal": "PayPal（沙箱）",
+    "submitOrder": "提交订单",
+    "loginRequired": "请先登录后再下单。",
+    "feeNote": "运费和税费将在确认订单后由客服与您确认。",
+    "processing": "处理中…",
+    "errorGeneric": "出错了，请重试。"
+  },
+  "Auth": {
+    "loginTitle": "登录",
+    "registerTitle": "创建账户",
+    "email": "邮箱",
+    "password": "密码",
+    "submitLogin": "登录",
+    "submitRegister": "注册",
+    "noAccount": "没有账号？",
+    "hasAccount": "已有账号？",
+    "logout": "退出登录"
+  },
+  "Account": {
+    "title": "用户中心",
+    "orders": "订单记录",
+    "profileHint": "收货信息可在结账时更新或在下方保存。",
+    "orderRef": "订单",
+    "date": "日期",
+    "status": "状态",
+    "total": "合计",
+    "view": "详情",
+    "noOrders": "暂无订单。",
+    "addressTitle": "默认收货地址",
+    "saveAddress": "保存地址"
+  },
+  "OrderStatus": {
+    "pending_confirmation": "待确认",
+    "confirmed": "已确认",
+    "shipped": "运输中",
+    "delivered": "已送达",
+    "cancelled": "已取消"
+  },
+  "About": {
+    "title": "关于我们",
+    "p1": "我们专注于跨境鲜花与礼品服务，重视货源稳定与沟通透明。",
+    "p2": "在适用场景下，每件作品均按出口级新鲜度准备。运费与关税由客服单独确认，避免隐性费用。"
+  },
+  "Contact": {
+    "title": "联系我们",
+    "intro": "如需报价或批发合作，请联系销售团队。",
+    "emailLabel": "邮箱",
+    "hoursLabel": "工作时间",
+    "hoursValue": "周一至周五 9:00–18:00（GMT+8）"
+  },
+  "Footer": {
+    "rights": "保留所有权利。",
+    "tagline": "鲜花礼品 · 全球送达"
+  },
+  "Admin": {
+    "title": "管理后台",
+    "dashboard": "仪表盘",
+    "products": "商品",
+    "orders": "订单",
+    "categories": "分类",
+    "recentOrders": "最近订单",
+    "statsOrders": "订单（全部状态）",
+    "pending": "待确认",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "create": "新建",
+    "back": "返回",
+    "uploadImage": "上传图片",
+    "variants": "规格",
+    "addVariant": "添加规格",
+    "orderStatus": "状态",
+    "shippingFee": "运费（USD）",
+    "taxFee": "税费（USD）"
+  }
+}
