@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 import type { ProductWithRelations } from "@/types/database";
 
 type Locale = "en" | "zh";
@@ -13,6 +14,7 @@ export type ProductFilter = {
 };
 
 export async function getCategories() {
+  if (!isSupabaseConfigured()) return [];
   const supabase = await createClient();
   const { data } = await supabase
     .from("categories")
@@ -22,6 +24,7 @@ export async function getCategories() {
 }
 
 export async function fetchActiveProducts() {
+  if (!isSupabaseConfigured()) return [];
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("products")
@@ -86,6 +89,7 @@ export async function getFeaturedProducts(limit = 6) {
 }
 
 export async function getProductBySlug(slug: string) {
+  if (!isSupabaseConfigured()) return null;
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("products")
