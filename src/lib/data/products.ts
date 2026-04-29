@@ -15,32 +15,40 @@ export type ProductFilter = {
 
 export async function getCategories() {
   if (!isSupabaseConfigured()) return [];
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("categories")
-    .select("*")
-    .order("sort_order");
-  return data ?? [];
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("categories")
+      .select("*")
+      .order("sort_order");
+    return data ?? [];
+  } catch {
+    return [];
+  }
 }
 
 export async function fetchActiveProducts() {
   if (!isSupabaseConfigured()) return [];
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("products")
-    .select(
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("products")
+      .select(
+        `
+        *,
+        category:categories (*),
+        product_variants (*),
+        product_images (*)
       `
-      *,
-      category:categories (*),
-      product_variants (*),
-      product_images (*)
-    `
-    )
-    .eq("is_active", true)
-    .order("created_at", { ascending: false });
+      )
+      .eq("is_active", true)
+      .order("created_at", { ascending: false });
 
-  if (error) throw error;
-  return (data ?? []) as unknown as ProductWithRelations[];
+    if (error) throw error;
+    return (data ?? []) as unknown as ProductWithRelations[];
+  } catch {
+    return [];
+  }
 }
 
 function matchesFilters(p: ProductWithRelations, f: ProductFilter) {
@@ -90,23 +98,27 @@ export async function getFeaturedProducts(limit = 6) {
 
 export async function getProductBySlug(slug: string) {
   if (!isSupabaseConfigured()) return null;
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("products")
-    .select(
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("products")
+      .select(
+        `
+        *,
+        category:categories (*),
+        product_variants (*),
+        product_images (*)
       `
-      *,
-      category:categories (*),
-      product_variants (*),
-      product_images (*)
-    `
-    )
-    .eq("slug", slug)
-    .eq("is_active", true)
-    .maybeSingle();
+      )
+      .eq("slug", slug)
+      .eq("is_active", true)
+      .maybeSingle();
 
-  if (error) throw error;
-  return data as unknown as ProductWithRelations | null;
+    if (error) throw error;
+    return data as unknown as ProductWithRelations | null;
+  } catch {
+    return null;
+  }
 }
 
 export function productTitle(p: ProductWithRelations, locale: Locale) {
