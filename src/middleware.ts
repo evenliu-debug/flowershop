@@ -18,18 +18,24 @@ async function refreshSessionOnResponse(
   const { url, key } = getSupabaseEnv();
   if (!url || !key) return response;
 
-  const supabase = createServerClient(url, key, {
-    cookies: {
-      getAll() {
-        return request.cookies.getAll();
+  let supabase: ReturnType<typeof createServerClient> | null = null;
+  try {
+    supabase = createServerClient(url, key, {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          );
+        },
       },
-      setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value, options }) =>
-          response.cookies.set(name, value, options)
-        );
-      },
-    },
-  });
+    });
+  } catch {
+    // If we can't even create the client, don't crash the whole request.
+    return response;
+  }
 
   // If auth/session retrieval fails (misconfigured env, not-yet-ready DB, etc.),
   // do not crash the whole page. Treat as logged-out and let the page/redirect handle it.
