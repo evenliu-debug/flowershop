@@ -31,9 +31,17 @@ async function refreshSessionOnResponse(
     },
   });
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // If auth/session retrieval fails (misconfigured env, not-yet-ready DB, etc.),
+  // do not crash the whole page. Treat as logged-out and let the page/redirect handle it.
+  let user: unknown = null;
+  try {
+    const {
+      data: { user: u },
+    } = await supabase.auth.getUser();
+    user = u ?? null;
+  } catch {
+    user = null;
+  }
 
   const path = request.nextUrl.pathname;
 
