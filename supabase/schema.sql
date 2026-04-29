@@ -169,6 +169,35 @@ alter table public.user_profiles enable row level security;
 alter table public.orders enable row level security;
 alter table public.order_items enable row level security;
 
+-- Privileges (GRANT) are required even with RLS
+-- Without these, anon/authenticated will hit `permission denied` despite policies.
+grant usage on schema public to anon;
+grant select on table
+  public.categories,
+  public.products,
+  public.product_images,
+  public.product_variants
+to anon;
+
+grant usage on schema public to authenticated;
+grant select on table
+  public.categories,
+  public.products,
+  public.product_images,
+  public.product_variants
+to authenticated;
+
+grant select, insert, update on public.user_profiles to authenticated;
+grant select, insert, update on public.orders to authenticated;
+grant select, insert on public.order_items to authenticated;
+
+grant select, insert, update, delete on
+  public.categories,
+  public.products,
+  public.product_images,
+  public.product_variants
+to authenticated;
+
 -- Public read for catalog
 create policy "Categories are readable by everyone"
   on public.categories for select using (true);
