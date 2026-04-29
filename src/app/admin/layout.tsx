@@ -1,5 +1,6 @@
 import { NextIntlClientProvider } from "next-intl";
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import en from "../../../messages/en.json";
@@ -9,19 +10,53 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
+  if (!isSupabaseConfigured()) {
+    return (
+      <div className="mx-auto max-w-2xl px-4 py-16">
+        <h1 className="text-xl font-semibold text-slate-900">Admin</h1>
+        <p className="mt-2 text-sm text-slate-600">
+          Supabase environment variables are not configured. Set
+          NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in Vercel
+          and redeploy.
+        </p>
+      </div>
+    );
+  }
+
+  let supabase: Awaited<ReturnType<typeof createClient>>;
+  try {
+    supabase = await createClient();
+  } catch {
+    return (
+      <div className="mx-auto max-w-2xl px-4 py-16">
+        <h1 className="text-xl font-semibold text-slate-900">Admin</h1>
+        <p className="mt-2 text-sm text-slate-600">
+          Could not initialize Supabase on the server. Please retry after
+          redeploying.
+        </p>
+      </div>
+    );
+  }
+
+  let userId: string | null = null;
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) redirect("/en/login?redirect=/admin");
+    userId = user.id;
+  } catch {
     redirect("/en/login?redirect=/admin");
   }
-  const { data: profile } = await supabase
-    .from("user_profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-  if (profile?.role !== "admin") {
+
+  try {
+    const { data: profile } = await supabase
+      .from("user_profiles")
+      .select("role")
+      .eq("id", userId!)
+      .maybeSingle();
+    if (profile?.role !== "admin") redirect("/en");
+  } catch {
     redirect("/en");
   }
 
